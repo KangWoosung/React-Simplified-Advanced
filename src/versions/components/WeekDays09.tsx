@@ -3,8 +3,6 @@ import React from "react";
 const WeekDays09 = () => {
   return (
     <>
-      <div>WeekDays09</div>
-
       <div className="date-picker-grid-header date-picker-grid">
         <div>Sun</div>
         <div>Mon</div>
