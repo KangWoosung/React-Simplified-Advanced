@@ -17,8 +17,6 @@ Get through Plan:
 3. Make date-fns custom functions if it needs to be
 4. Add actions one by one
 
-1. first date's day
-
 
 
 */
@@ -27,24 +25,32 @@ import {
   lastDayOfMonth,
   subMonths,
   addMonths,
-  endOfMonth,
-  getMonth,
-  getYear,
   getDate,
 } from "date-fns";
 import "../css/date_picker.css";
 import DatePicker09 from "./components/DatePicker09";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { dateFormatByNation } from "../functions/dateFormatByNation";
+
+export const nationsCode = "US";
 
 const Component09 = () => {
   const currentDate = new Date();
-  const currentMonth = getMonth(currentDate) + 1;
-  const currentYear = getYear(currentDate);
-  const currentDateNumber = getDate(currentDate);
-  const firstDayOfCurrentMonth = Number(format(currentDate, "i"));
   const lastDateOfCurrentMonth = Number(
     format(lastDayOfMonth(currentDate), "dd")
   );
+  // for key compare to check current date
+  const currentDateString = dateFormatByNation(
+    currentDate,
+    nationsCode
+  ) as string;
+  console.log(currentDateString);
+
+  // Picked date string state
+  const [pickedDateString, setPickedDateString] = useState(currentDateString);
+
+  // DatePicker Active/Deactive
+  const [datePickerActive, setDatePickerActive] = useState(false);
 
   // Currently selected Date object
   const [currentDateState, setCurrentDateState] = useState(currentDate);
@@ -64,10 +70,8 @@ const Component09 = () => {
     Array.from({ length: lastDateOfCurrentMonth }, (_, i) => i + 1)
   );
 
-  useEffect(() => {}, []);
-  // for key compare to check current date
-  const currentDateString =
-    currentYear + "-" + currentMonth + "-" + currentDateNumber + "current";
+  // Selected Date State
+  const [selectedDateState, setSelectedDateState] = useState("");
 
   // Move Month action
   const moveToPrevMonth = () => {
@@ -89,29 +93,44 @@ const Component09 = () => {
     setCurrentMonthDays(getCurrentMonthDays(newDate));
   };
 
-  const lastDatePrevMonth = getDate(endOfMonth(subMonths(currentDateState, 1)));
-  //   const monthPrevMonth = getMonth(previousMonthDate) + 1; // 1을 더해서 실제 월 값을 얻음
-  //   const yearPrevMonth = getYear(previousMonthDate);
+  // Pick Date acttion
+  const pickDate = (dateKeyStr: string) => {
+    console.log("selectDate", dateKeyStr);
+    setSelectedDateState(dateKeyStr);
+    setPickedDateString(dateKeyStr);
+  };
 
-  const prevMonthDates = [];
-  for (let i = firstDayOfCurrentMonth; i < 0; i++) {
-    prevMonthDates.push(lastDatePrevMonth - i);
-  }
+  // Toggle setDatePickerActive
+  const toggleSetDatePickerActive = () => {
+    setDatePickerActive(!datePickerActive);
+  };
 
   return (
     <>
       <h1>DatePicker</h1>
       <div className="date-picker-container">
-        <button className="date-picker-button">{currentDateString}</button>
-        <DatePicker09
-          prevMonthDays={prevMonthDays}
-          nextMonthDays={nextMonthDays}
-          currentMonthDays={currentMonthDays}
-          currentDateState={currentDateState}
-          currentDateString={currentDateString}
-          moveToPrevMonth={moveToPrevMonth}
-          moveToNextMonth={moveToNextMonth}
-        />
+        <button
+          className="date-picker-button"
+          onClick={toggleSetDatePickerActive}
+        >
+          {pickedDateString}
+        </button>
+
+        {datePickerActive && (
+          <div className="date-picker">
+            <DatePicker09
+              prevMonthDays={prevMonthDays}
+              nextMonthDays={nextMonthDays}
+              currentMonthDays={currentMonthDays}
+              currentDateState={currentDateState}
+              currentDateString={currentDateString}
+              moveToPrevMonth={moveToPrevMonth}
+              moveToNextMonth={moveToNextMonth}
+              pickDate={pickDate}
+              selectedDateState={selectedDateState}
+            />
+          </div>
+        )}
       </div>
     </>
   );

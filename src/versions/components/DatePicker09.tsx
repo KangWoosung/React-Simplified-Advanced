@@ -4,30 +4,47 @@
 
 */
 
-import { getMonth, getYear } from "date-fns";
+import { format, getYear } from "date-fns";
 import WeekDays09 from "./WeekDays09";
+import { dateFormatByNation } from "../../functions/dateFormatByNation";
+import { nationsCode } from "../Component09";
 
 type DatePickerParams = {
   prevMonthDays: number[];
   nextMonthDays: number[];
   currentMonthDays: number[];
-  currentDateString: string;
   currentDateState: Date;
+  currentDateString: string;
   moveToPrevMonth: () => void;
   moveToNextMonth: () => void;
+  pickDate: (arg: string) => void;
+  selectedDateState: string;
 };
 
 const DatePicker09 = ({
   prevMonthDays,
   nextMonthDays,
   currentMonthDays,
-  currentDateString,
   currentDateState,
+  currentDateString,
   moveToPrevMonth,
   moveToNextMonth,
+  pickDate,
+  selectedDateState,
 }: DatePickerParams) => {
-  const currentMonth = getMonth(currentDateState) + 1;
+  const currentMonth = Number(format(currentDateState, "M"));
   const currentYear = getYear(currentDateState);
+  console.log(currentMonth);
+  console.log(currentDateState);
+  let current_month = dateFormatByNation(
+    currentDateState,
+    nationsCode
+  ) as string;
+  current_month = current_month
+    .replace(/(\w{3}) \d{1,2}, (\d{4})/, "$1 $2")
+    .replace(/\d{1,2}(일|日)/, "")
+    .replace(/^\d{1,2} /, "");
+  current_month;
 
   return (
     <>
@@ -41,9 +58,7 @@ const DatePicker09 = ({
           >
             &larr;
           </button>
-          <div className="current-month">
-            {currentYear}-{currentMonth}
-          </div>
+          <div className="current-month">{current_month}</div>
           <button
             className="next-month-button month-button"
             onClick={moveToNextMonth}
@@ -62,14 +77,22 @@ const DatePicker09 = ({
             );
           })}
           {currentMonthDays.map((date) => {
-            const key =
-              currentYear + "-" + currentMonth + "-" + date + "current";
+            const key = dateFormatByNation(
+              new Date(currentYear, currentMonth - 1, date),
+              nationsCode
+            ) as string;
+            console.log(currentYear, currentMonth, date);
             return (
               <button
-                className={`date ${key == currentDateString ? `today` : ``}`}
+                className={`date 
+                    ${key == currentDateString ? ` today ` : ``}
+                    ${key == selectedDateState ? ` selected` : ``}
+                `}
                 key={key}
+                onClick={() => pickDate(key)}
               >
                 {date}
+                {/* {date} {key} {currentDateString} */}
               </button>
             );
           })}
