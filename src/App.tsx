@@ -7,7 +7,8 @@
 // import Component06 from "./versions/Component06";
 // import Component07 from "./versions/Component07";
 // import Component08 from "./versions/Component08";
-import Component09 from "./versions/Component09";
+// import Component09 from "./versions/Component09";
+import Component09_Kyle from "./versions/Component09_Kyle";
 
 import "./css/styles.css";
 import { ErrorBoundary06 } from "./versions/components/ErrorBoundary06";
@@ -23,7 +24,7 @@ function App() {
           </Fallback>
         }
       >
-        <Component09 />
+        <Component09_Kyle />
       </ErrorBoundary06>
     </>
   );
