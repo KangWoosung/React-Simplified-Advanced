@@ -8,7 +8,11 @@
 // import Component07 from "./versions/Component07";
 // import Component08 from "./versions/Component08";
 // import Component09 from "./versions/Component09";
-import Component09_Kyle from "./versions/Component09_Kyle";
+// import Component09_Kyle from "./versions/Component09_Kyle";
+// import Component11 from "./versions/Component11";
+// import Component12 from "./versions/Component12";
+// import Component13 from "./versions/Component13";
+import Component14 from "./versions/Component14";
 
 import "./css/styles.css";
 import { ErrorBoundary06 } from "./versions/components/ErrorBoundary06";
@@ -24,7 +28,7 @@ function App() {
           </Fallback>
         }
       >
-        <Component09_Kyle />
+        <Component14 />
       </ErrorBoundary06>
     </>
   );
