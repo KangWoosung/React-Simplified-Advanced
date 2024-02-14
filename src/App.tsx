@@ -12,7 +12,9 @@
 // import Component11 from "./versions/Component11";
 // import Component12 from "./versions/Component12";
 // import Component13 from "./versions/Component13";
-import Component14 from "./versions/Component14";
+// import Component14 from "./versions/Component14";
+// import Component15 from "./versions/Component15";
+import Component16 from "./versions/Component16";
 
 import "./css/styles.css";
 import { ErrorBoundary06 } from "./versions/components/ErrorBoundary06";
@@ -28,7 +30,7 @@ function App() {
           </Fallback>
         }
       >
-        <Component14 />
+        <Component16 />
       </ErrorBoundary06>
     </>
   );

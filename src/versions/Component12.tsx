@@ -6,7 +6,7 @@ Input field value will be stored into the LocalStorage directly.
 
 import { useState } from "react";
 import useOnlineStatus from "../hooks/useOnlineStatus";
-import useLocalStorage from "../hooks/UseLocalStorage";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const Component12 = () => {
   const isOnline = useOnlineStatus();
